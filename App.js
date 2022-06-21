@@ -1,20 +1,86 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import {View, Image, StyleSheet, SafeAreaView, StatusBar, Text, Pressable, Linking,} from 'react-native';
 
-export default function App() {
+const colorGithub = '#010409';
+const colorFontGithub = '#C9D1D9';
+const colorDarkFontGithub = '#4F565E';
+
+const imageProfileGithub ='https://avatars.githubusercontent.com/u/106120077?v=4';
+const urlToMyGithub = 'https://github.com/ArianeMafra';
+
+const App = () => {
+  const handlePressGoToGithub = async () => {
+    console.log('Verificando link');
+    const res = await Linking.canOpenURL(urlToMyGithub);
+    if (res) {
+      console.log('Link aprovado');
+      console.log('Abrindo link ...');
+      await Linking.openURL(urlToMyGithub);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={style.container}>
+      <StatusBar backgroundColor={colorGithub} barStyle="light-content" />
+      <View style={style.content}>
+        <Image accessibilityLabel="Foto rosto Ariane" style={style.avatar} source={{uri: imageProfileGithub}}/>
+        <Text accessibilityLabel="Nome: Ariane Mafra" style={[style.defaultText, style.name]}>Ariane Mafra</Text>
+        <Text accessibilityLabel="Nickname: ArianeMafra" style={[style.defaultText, style.nickname]}>ArianeMafra</Text>
+        <Text accessibilityLabel="Descrição: Estudante de Análise e Desenvolvimento de Sistemas" style={[style.defaultText, style.description]}>Estudante de Análise e Desenvolvimento de Sistemas</Text>
+        <Pressable onPress={handlePressGoToGithub}>
+          <View style={style.button}>
+            <Text style={[style.defaultText, style.textButton]}>Open in Github</Text>
+          </View>
+        </Pressable>
+      </View>
+    </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
+export default App;
+
+const style = StyleSheet.create({
   container: {
+    backgroundColor: colorGithub,
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {
+    alignItems: 'center',
+    padding: 20,
+  },
+  avatar: {
+    height: 200,
+    width: 200,
+    borderRadius: 100,
+    borderColor: 'white',
+    borderWidth: 2,
+  },
+  defaultText: {
+    color: colorFontGithub,
+  },
+  name: {
+    marginTop: 20,
+    fontWeight: 'bold',
+    fontSize: 24,
+  },
+  nickname: {
+    fontSize: 18,
+    color: colorDarkFontGithub,
+  },
+  description: {
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  button: {
+    marginTop: 20,
+    backgroundColor: colorDarkFontGithub,
+    borderRadius: 10,
+    padding: 20,
+  },
+  textButton: {
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
